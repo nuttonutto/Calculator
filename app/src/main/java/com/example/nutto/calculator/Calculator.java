@@ -13,10 +13,11 @@ import android.widget.TextView;
 
 public class Calculator extends ActionBarActivity {
     double result = 0;
-    enum Operation {plus, minus, multiply, divide};
+    enum Operation {plus, minus, multiply, divide}
+
     Operation operation = Operation.plus;
-    boolean showResult = false;
     boolean opClick = false;
+    boolean showResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,67 +44,97 @@ public class Calculator extends ActionBarActivity {
         Button btnClear = (Button)findViewById(R.id.clear);
         Button btnEqual = (Button)findViewById(R.id.equal);
 
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"1");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "1");
+                } else {
+                    txt.setText("1");
+                }            }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"2");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "2");
+                } else {
+                    txt.setText("2");
+                }            }
         });
 
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"3");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "3");
+                } else {
+                    txt.setText("3");
+                }            }
         });
 
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"4");
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "4");
+                } else {
+                    txt.setText("4");
+                }
             }
         });
 
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"5");
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "5");
+                } else {
+                    txt.setText("5");
+                }
             }
         });
 
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"6");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "6");
+                } else {
+                    txt.setText("6");
+                }            }
         });
 
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"7");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "7");
+                } else {
+                    txt.setText("7");
+                }            }
         });
 
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"8");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "8");
+                } else {
+                    txt.setText("8");
+                }            }
         });
 
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt.setText(txt.getText().toString()+"9");
-            }
+                if (!opClick) {
+                    txt.setText(txt.getText().toString() + "9");
+                } else {
+                    txt.setText("9");
+                }            }
         });
 
         btn0.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +143,7 @@ public class Calculator extends ActionBarActivity {
                 if (txt.getText().toString().isEmpty()){
                     txt.setText(txt.getText().toString()+"");
                 }
+                else if(!opClick){txt.setText("0");}
                 else{
                     txt.setText(txt.getText().toString()+"0");
                 }
@@ -123,32 +155,40 @@ public class Calculator extends ActionBarActivity {
             public void onClick(View v) {
                 txt.setText("");
                 result = 0;
+                opClick = false;
             }
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                operation = Operation.plus;
                 if (txt.getText().toString().isEmpty()){
                     txt.setText(txt.getText().toString()+"");
                 }
-                else{
-                operation = Operation.plus;
-                result = Double.parseDouble(txt.getText().toString());
-                txt.setText("");
-                opClick = true;
+                else {
+                    if (opClick){
+                        result = result+Double.parseDouble(txt.getText().toString());
+                        txt.setText(Double.valueOf(result).toString());
+                        }
+                    else{
+                        result = Double.parseDouble(txt.getText().toString());
+                        txt.setText("");
+                        opClick = true;
+                    }
+                }
             }
-            }
+
         });
 
         btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                operation = Operation.minus;
                 if (txt.getText().toString().isEmpty()){
                     txt.setText(txt.getText().toString()+"");
                 }
                 else {
-                    operation = Operation.minus;
                     opClick = true;
                     result = Double.parseDouble(txt.getText().toString());
                     txt.setText("");
@@ -159,10 +199,10 @@ public class Calculator extends ActionBarActivity {
         btnMul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                operation = Operation.multiply;
                 if (txt.getText().toString().isEmpty()) {
                     txt.setText(txt.getText().toString() + "");
                 } else {
-                    operation = Operation.multiply;
                     opClick = true;
                     result = Double.parseDouble(txt.getText().toString());
                     txt.setText("");
@@ -173,10 +213,10 @@ public class Calculator extends ActionBarActivity {
         btnDiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                operation = Operation.divide;
                 if (txt.getText().toString().isEmpty()) {
                     txt.setText(txt.getText().toString() + "");
                 } else {
-                    operation = Operation.divide;
                     opClick = true;
                     result = Double.parseDouble(txt.getText().toString());
                     txt.setText("");
@@ -205,17 +245,21 @@ public class Calculator extends ActionBarActivity {
                                 result = result / Double.parseDouble(txt.getText().toString());
                                 break;
                         }
+
                     }
+
                     showResult = true;
-                    txt.setText(Double.toString(result));
+                    opClick = false;
+                    txt.setText("");
                     intent.putExtra("result", Double.toString(result));
                     intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
                     startActivity(intent);
+                    result = 0;
                 }
             }
         });
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
