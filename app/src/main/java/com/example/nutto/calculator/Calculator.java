@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 
 public class Calculator extends ActionBarActivity {
     double result = 0;
@@ -43,6 +45,8 @@ public class Calculator extends ActionBarActivity {
         Button btnDiv = (Button)findViewById(R.id.div);
         Button btnClear = (Button)findViewById(R.id.clear);
         Button btnEqual = (Button)findViewById(R.id.equal);
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalSeparatorAlwaysShown(false);
 
 
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -168,11 +172,11 @@ public class Calculator extends ActionBarActivity {
                 }
                 else {
                     if (opClick) {
-                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
-                            txt.setText(Double.valueOf(result).toString());
+                        if (txt.getText().toString().equals(Double.toString(result))) {
+                            txt.setText(Double.toString(result));
                         } else {
                             result = result + Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.valueOf(result).toString());
+                            txt.setText(Double.toString(result));
                         }
                     }
                     else{
@@ -194,11 +198,11 @@ public class Calculator extends ActionBarActivity {
                 }
                 else {
                     if (opClick){
-                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
-                            txt.setText(Double.valueOf(result).toString());
+                        if (txt.getText().toString().equals(Double.toString(result))) {
+                            txt.setText(Double.toString(result));
                         } else {
                             result = result - Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.valueOf(result).toString());
+                            txt.setText(Double.toString(result));
                         }
                     }
                     else{
@@ -219,11 +223,11 @@ public class Calculator extends ActionBarActivity {
                 }
                 else {
                     if (opClick){
-                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
-                            txt.setText(Double.valueOf(result).toString());
+                        if (txt.getText().toString().equals(Double.toString(result))) {
+                            txt.setText(Double.toString(result));
                         } else {
                             result = result * Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.valueOf(result).toString());
+                            txt.setText(Double.toString(result));
                         }
                     }
                     else{
@@ -244,11 +248,11 @@ public class Calculator extends ActionBarActivity {
                 }
                 else {
                     if (opClick){
-                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
-                            txt.setText(Double.valueOf(result).toString());
+                        if (txt.getText().toString().equals(Double.toString(result))) {
+                            txt.setText(Double.toString(result));
                         } else {
                             result = result / Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.valueOf(result).toString());
+                            txt.setText(Double.toString(result));
                         }
                     }
                     else{
@@ -283,7 +287,6 @@ public class Calculator extends ActionBarActivity {
                         }
 
                     }
-
                     showResult = true;
                     opClick = false;
                     txt.setText("");
