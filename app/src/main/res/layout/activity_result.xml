@@ -13,5 +13,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/txt2"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="50dp"
+        android:textColor="#ffffff" />
 </RelativeLayout>

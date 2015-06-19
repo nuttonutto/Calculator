@@ -1,6 +1,7 @@
 package com.example.nutto.calculator;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 
 public class Calculator extends ActionBarActivity {
     double result = 0;
-    TextView txt;
     enum Operation {plus, minus, multiply, divide};
     Operation operation = Operation.plus;
     boolean showResult = false;
@@ -21,6 +21,7 @@ public class Calculator extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_calculator);
 
         final Intent intent = new Intent(Calculator.this,Result.class);
@@ -128,69 +129,90 @@ public class Calculator extends ActionBarActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (txt.getText().toString().isEmpty()){
+                    txt.setText(txt.getText().toString()+"");
+                }
+                else{
                 operation = Operation.plus;
                 result = Double.parseDouble(txt.getText().toString());
                 txt.setText("");
                 opClick = true;
+            }
             }
         });
 
         btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = Operation.minus;
-                opClick = true;
-                result = Double.parseDouble(txt.getText().toString());
-                txt.setText("");
+                if (txt.getText().toString().isEmpty()){
+                    txt.setText(txt.getText().toString()+"");
+                }
+                else {
+                    operation = Operation.minus;
+                    opClick = true;
+                    result = Double.parseDouble(txt.getText().toString());
+                    txt.setText("");
+                }
             }
         });
 
         btnMul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = Operation.multiply;
-                opClick = true;
-                result = Double.parseDouble(txt.getText().toString());
-                txt.setText("");
+                if (txt.getText().toString().isEmpty()) {
+                    txt.setText(txt.getText().toString() + "");
+                } else {
+                    operation = Operation.multiply;
+                    opClick = true;
+                    result = Double.parseDouble(txt.getText().toString());
+                    txt.setText("");
+                }
             }
         });
 
         btnDiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = Operation.divide;
-                opClick = true;
-                result = Double.parseDouble(txt.getText().toString());
-                txt.setText("");
+                if (txt.getText().toString().isEmpty()) {
+                    txt.setText(txt.getText().toString() + "");
+                } else {
+                    operation = Operation.divide;
+                    opClick = true;
+                    result = Double.parseDouble(txt.getText().toString());
+                    txt.setText("");
+                }
             }
         });
 
         btnEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(opClick){
-                    switch (operation){
-                        case plus:
-                            result = result + Double.parseDouble(txt.getText().toString());
-                            break;
-                        case minus:
-                            result = result - Double.parseDouble(txt.getText().toString());
-                            break;
-                        case multiply:
-                            result = result * Double.parseDouble(txt.getText().toString());
-                            break;
-                        case divide:
-                            result = result / Double.parseDouble(txt.getText().toString());
-                            break;
+                if (txt.getText().toString().isEmpty()) {
+                    txt.setText(txt.getText().toString() + "");
+                } else {
+                    if (opClick) {
+                        switch (operation) {
+                            case plus:
+                                result = result + Double.parseDouble(txt.getText().toString());
+                                break;
+                            case minus:
+                                result = result - Double.parseDouble(txt.getText().toString());
+                                break;
+                            case multiply:
+                                result = result * Double.parseDouble(txt.getText().toString());
+                                break;
+                            case divide:
+                                result = result / Double.parseDouble(txt.getText().toString());
+                                break;
+                        }
                     }
+                    showResult = true;
+                    txt.setText(Double.toString(result));
+                    intent.putExtra("result", Double.toString(result));
+                    intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
+                    startActivity(intent);
                 }
-                showResult = true;
-                txt.setText(Double.toString(result));
-                intent.putExtra("result", Double.toString(result));
-                intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
-                startActivity(intent);
             }
-
         });
     }
 
