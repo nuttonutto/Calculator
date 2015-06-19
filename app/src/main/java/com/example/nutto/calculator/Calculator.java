@@ -140,7 +140,7 @@ public class Calculator extends ActionBarActivity {
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txt.getText().toString().isEmpty()){
+                if (txt.getText().toString().isEmpty()&&!opClick){
                     txt.setText(txt.getText().toString()+"");
                 }
                 else if(!opClick){txt.setText("0");}
@@ -167,10 +167,14 @@ public class Calculator extends ActionBarActivity {
                     txt.setText(txt.getText().toString()+"");
                 }
                 else {
-                    if (opClick){
-                        result = result+Double.parseDouble(txt.getText().toString());
-                        txt.setText(Double.valueOf(result).toString());
+                    if (opClick) {
+                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
+                            txt.setText(Double.valueOf(result).toString());
+                        } else {
+                            result = result + Double.parseDouble(txt.getText().toString());
+                            txt.setText(Double.valueOf(result).toString());
                         }
+                    }
                     else{
                         result = Double.parseDouble(txt.getText().toString());
                         txt.setText("");
@@ -189,9 +193,19 @@ public class Calculator extends ActionBarActivity {
                     txt.setText(txt.getText().toString()+"");
                 }
                 else {
-                    opClick = true;
-                    result = Double.parseDouble(txt.getText().toString());
-                    txt.setText("");
+                    if (opClick){
+                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
+                            txt.setText(Double.valueOf(result).toString());
+                        } else {
+                            result = result - Double.parseDouble(txt.getText().toString());
+                            txt.setText(Double.valueOf(result).toString());
+                        }
+                    }
+                    else{
+                        result = Double.parseDouble(txt.getText().toString());
+                        txt.setText("");
+                        opClick = true;
+                    }
                 }
             }
         });
@@ -200,12 +214,23 @@ public class Calculator extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 operation = Operation.multiply;
-                if (txt.getText().toString().isEmpty()) {
-                    txt.setText(txt.getText().toString() + "");
-                } else {
-                    opClick = true;
-                    result = Double.parseDouble(txt.getText().toString());
-                    txt.setText("");
+                if (txt.getText().toString().isEmpty()){
+                    txt.setText(txt.getText().toString()+"");
+                }
+                else {
+                    if (opClick){
+                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
+                            txt.setText(Double.valueOf(result).toString());
+                        } else {
+                            result = result * Double.parseDouble(txt.getText().toString());
+                            txt.setText(Double.valueOf(result).toString());
+                        }
+                    }
+                    else{
+                        result = Double.parseDouble(txt.getText().toString());
+                        txt.setText("");
+                        opClick = true;
+                    }
                 }
             }
         });
@@ -214,12 +239,23 @@ public class Calculator extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 operation = Operation.divide;
-                if (txt.getText().toString().isEmpty()) {
-                    txt.setText(txt.getText().toString() + "");
-                } else {
-                    opClick = true;
-                    result = Double.parseDouble(txt.getText().toString());
-                    txt.setText("");
+                if (txt.getText().toString().isEmpty()){
+                    txt.setText(txt.getText().toString()+"");
+                }
+                else {
+                    if (opClick){
+                        if (txt.getText().toString().equals(Double.valueOf(result).toString())) {
+                            txt.setText(Double.valueOf(result).toString());
+                        } else {
+                            result = result / Double.parseDouble(txt.getText().toString());
+                            txt.setText(Double.valueOf(result).toString());
+                        }
+                    }
+                    else{
+                        result = Double.parseDouble(txt.getText().toString());
+                        txt.setText("");
+                        opClick = true;
+                    }
                 }
             }
         });
