@@ -1,17 +1,38 @@
 package com.example.nutto.calculator;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class Result extends ActionBarActivity {
+    private Intent intent = getIntent();
+    String newString;
+    String activityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        final TextView txt2 = (TextView) findViewById(R.id.txt2);
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                newString= null;
+                activityName = null;
+            } else {
+                newString= extras.getString("result");
+                activityName = extras.getString("activityName");
+            }
+        } else {
+            newString= (String) savedInstanceState.getSerializable("result");
+            activityName= (String) savedInstanceState.getSerializable("activityName");
+        }
+        txt2.setText(newString);
+        setTitle(activityName);
     }
 
     @Override

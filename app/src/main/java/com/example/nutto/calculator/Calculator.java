@@ -11,7 +11,12 @@ import android.widget.TextView;
 
 
 public class Calculator extends ActionBarActivity {
-    private int operator = 0;
+    double result = 0;
+    TextView txt;
+    enum Operation {plus, minus, multiply, divide};
+    Operation operation = Operation.plus;
+    boolean showResult = false;
+    boolean opClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +25,6 @@ public class Calculator extends ActionBarActivity {
 
         final Intent intent = new Intent(Calculator.this,Result.class);
         final TextView txt = (TextView) findViewById(R.id.txt);
-        TextView txtOp = (TextView)findViewById(R.id.txtOp);
         Button btn1 = (Button) findViewById(R.id.one);
         Button btn2 = (Button)findViewById(R.id.two);
         Button btn3 = (Button)findViewById(R.id.three);
@@ -117,44 +121,79 @@ public class Calculator extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 txt.setText("");
+                result = 0;
             }
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do something
+                operation = Operation.plus;
+                result = Double.parseDouble(txt.getText().toString());
+                txt.setText("");
+                opClick = true;
             }
         });
 
         btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do something
+                operation = Operation.minus;
+                opClick = true;
+                result = Double.parseDouble(txt.getText().toString());
+                txt.setText("");
             }
         });
 
         btnMul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do something
+                operation = Operation.multiply;
+                opClick = true;
+                result = Double.parseDouble(txt.getText().toString());
+                txt.setText("");
             }
         });
 
         btnDiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do something
+                operation = Operation.divide;
+                opClick = true;
+                result = Double.parseDouble(txt.getText().toString());
+                txt.setText("");
             }
         });
 
         btnEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(opClick){
+                    switch (operation){
+                        case plus:
+                            result = result + Double.parseDouble(txt.getText().toString());
+                            break;
+                        case minus:
+                            result = result - Double.parseDouble(txt.getText().toString());
+                            break;
+                        case multiply:
+                            result = result * Double.parseDouble(txt.getText().toString());
+                            break;
+                        case divide:
+                            result = result / Double.parseDouble(txt.getText().toString());
+                            break;
+                    }
+                }
+                showResult = true;
+                txt.setText(Double.toString(result));
+                intent.putExtra("result", Double.toString(result));
+                intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
                 startActivity(intent);
             }
+
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
