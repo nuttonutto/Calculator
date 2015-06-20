@@ -18,13 +18,13 @@ public class Calculator extends ActionBarActivity {
     Operation operation = Operation.plus;
     boolean opClick = false;
     int opCount;
-    boolean showResult = false;
+    boolean isCalculated = false;
 
     class Number_Button implements Button.OnClickListener{
 
         @Override
         public void onClick(View v) {
-            if(resultsBoxString.equals("")){
+            if((resultsBoxString.equals(""))||((!resultsBoxString.equals("")&&isCalculated))){
                 switch (v.getId()){
                     case R.id.one: resultsBoxString = "1"; break;
                     case R.id.two: resultsBoxString = "2"; break;
@@ -37,8 +37,10 @@ public class Calculator extends ActionBarActivity {
                     case R.id.nine: resultsBoxString = "9"; break;
                     case R.id.zero: resultsBoxString = ""; break;
                 }
+                isCalculated = false;
+
             }
-            else{
+            else if(!resultsBoxString.equals("")){
                 switch (v.getId()){
                     case R.id.one: resultsBoxString += "1"; break;
                     case R.id.two: resultsBoxString += "2"; break;
@@ -57,49 +59,56 @@ public class Calculator extends ActionBarActivity {
     }
 
     class Operand_Button implements Button.OnClickListener{
-
+        double tmp;
         @Override
         public void onClick(View v) {
-
+            switch (v.getId()){
+                case R.id.add: operation = Operation.plus; break;
+                case R.id.sub: operation = Operation.minus; break;
+                case R.id.mul: operation = Operation.multiply; break;
+                case R.id.div: operation = Operation.divide; break;
+            }
+            //Add minus number
             if(resultsBoxString.equals("")){
-                switch (v.getId()){
+                /**switch (v.getId()){
                     case R.id.add: resultsBoxString = ""; break;
                     case R.id.mul: resultsBoxString = ""; break;
                     case R.id.div: resultsBoxString = ""; break;
                     case R.id.sub: resultsBoxString = "-"; break;
                 }
                 if(resultsBoxString.equals("-"))
-                result = -0;
-                txt.setText(resultsBoxString);
+                result = -0;**/
+                txt.setText(resultsBoxString+"");
             }
             else {
-                switch (v.getId()){
-                    case R.id.add: operation = Operation.plus; break;
-                    case R.id.sub: operation = Operation.minus; break;
-                    case R.id.mul: operation = Operation.multiply; break;
-                    case R.id.div: operation = Operation.divide; break;
-                }
                 opCount += 1;
-                result = Double.parseDouble(resultsBoxString);
-                resultsBoxString = "";
-
-                //Multiple operand without click = yet
                 if(opClick){
-
-                }
-                //Click operand first time
-                else{
-                    //Click more than once
-                    if(opCount>1){
-                        result = Double.parseDouble(resultsBoxString);
-
+                    if(!isCalculated) {
+                        switch (operation) {
+                            case plus:
+                                result = result + Double.parseDouble(txt.getText().toString());
+                                break;
+                            case minus:
+                                result = result - Double.parseDouble(txt.getText().toString());
+                                break;
+                            case multiply:
+                                result = result * Double.parseDouble(txt.getText().toString());
+                                break;
+                            case divide:
+                                result = result / Double.parseDouble(txt.getText().toString());
+                                break;
+                        }
+                        isCalculated = true;
                     }
-                    txt.setText("");
-                    opClick = true;
+                    resultsBoxString = Double.toString(result);
+                }
+                else {
+                    result = Double.parseDouble(resultsBoxString);
+                    resultsBoxString = "";
                 }
             }
-            txt.setText("");
-
+            txt.setText(resultsBoxString);
+            opClick = true;
         }
     }
 
@@ -156,6 +165,7 @@ public class Calculator extends ActionBarActivity {
                 opClick = false;
                 opCount = 0;
                 result = 0;
+                isCalculated = false;
             }
         });
 
@@ -165,25 +175,24 @@ public class Calculator extends ActionBarActivity {
                 if (resultsBoxString.equals("")) {
                     txt.setText("");
                 } else {
-                    if (opCount>0) {
+                    if(opCount>0){
                         switch (operation) {
                             case plus:
-                                result = result + Double.parseDouble(resultsBoxString);
+                                result = result + Double.parseDouble(txt.getText().toString());
                                 break;
                             case minus:
-                                result = result - Double.parseDouble(resultsBoxString);
+                                result = result - Double.parseDouble(txt.getText().toString());
                                 break;
                             case multiply:
-                                result = result * Double.parseDouble(resultsBoxString);
+                                result = result * Double.parseDouble(txt.getText().toString());
                                 break;
                             case divide:
-                                result = result / Double.parseDouble(resultsBoxString);
+                                result = result / Double.parseDouble(txt.getText().toString());
                                 break;
                         }
                     }
-                    //Click equal without clicking operand
                     else{
-                        result = Double.parseDouble(resultsBoxString);
+                        result = Double.valueOf(resultsBoxString);
                     }
                     opClick = false;
                     opCount = 0;
@@ -193,6 +202,7 @@ public class Calculator extends ActionBarActivity {
                     startActivity(intent);
                     resultsBoxString = "";
                     result = 0;
+                    isCalculated = false;
                 }
             }
         });
