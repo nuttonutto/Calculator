@@ -10,15 +10,98 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
-
-
 public class Calculator extends ActionBarActivity {
-    double result = 0;
+    double result;
+    TextView txt;
+    String resultsBoxString;
     enum Operation {plus, minus, multiply, divide}
     Operation operation = Operation.plus;
     boolean opClick = false;
+    int opCount;
     boolean showResult = false;
+
+    class Number_Button implements Button.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            if(resultsBoxString.equals("")){
+                switch (v.getId()){
+                    case R.id.one: resultsBoxString = "1"; break;
+                    case R.id.two: resultsBoxString = "2"; break;
+                    case R.id.three: resultsBoxString = "3"; break;
+                    case R.id.four: resultsBoxString = "4"; break;
+                    case R.id.five: resultsBoxString = "5"; break;
+                    case R.id.six: resultsBoxString = "6"; break;
+                    case R.id.seven: resultsBoxString = "7"; break;
+                    case R.id.eight: resultsBoxString = "8"; break;
+                    case R.id.nine: resultsBoxString = "9"; break;
+                    case R.id.zero: resultsBoxString = ""; break;
+                }
+            }
+            else{
+                switch (v.getId()){
+                    case R.id.one: resultsBoxString += "1"; break;
+                    case R.id.two: resultsBoxString += "2"; break;
+                    case R.id.three: resultsBoxString += "3"; break;
+                    case R.id.four: resultsBoxString += "4"; break;
+                    case R.id.five: resultsBoxString += "5"; break;
+                    case R.id.six: resultsBoxString += "6"; break;
+                    case R.id.seven: resultsBoxString += "7"; break;
+                    case R.id.eight: resultsBoxString += "8"; break;
+                    case R.id.nine: resultsBoxString += "9"; break;
+                    case R.id.zero: resultsBoxString += "0"; break;
+                }
+            }
+            txt.setText(resultsBoxString);
+        }
+    }
+
+    class Operand_Button implements Button.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+
+            if(resultsBoxString.equals("")){
+                switch (v.getId()){
+                    case R.id.add: resultsBoxString = ""; break;
+                    case R.id.mul: resultsBoxString = ""; break;
+                    case R.id.div: resultsBoxString = ""; break;
+                    case R.id.sub: resultsBoxString = "-"; break;
+                }
+                if(resultsBoxString.equals("-"))
+                result = -0;
+                txt.setText(resultsBoxString);
+            }
+            else {
+                switch (v.getId()){
+                    case R.id.add: operation = Operation.plus; break;
+                    case R.id.sub: operation = Operation.minus; break;
+                    case R.id.mul: operation = Operation.multiply; break;
+                    case R.id.div: operation = Operation.divide; break;
+                }
+                opCount += 1;
+                result = Double.parseDouble(resultsBoxString);
+                resultsBoxString = "";
+
+                //Multiple operand without click = yet
+                if(opClick){
+
+                }
+                //Click operand first time
+                else{
+                    //Click more than once
+                    if(opCount>1){
+                        result = Double.parseDouble(resultsBoxString);
+
+                    }
+                    txt.setText("");
+                    opClick = true;
+                }
+            }
+            txt.setText("");
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +110,6 @@ public class Calculator extends ActionBarActivity {
         setContentView(R.layout.activity_calculator);
 
         final Intent intent = new Intent(Calculator.this,Result.class);
-        final TextView txt = (TextView) findViewById(R.id.txt);
         Button btn1 = (Button) findViewById(R.id.one);
         Button btn2 = (Button)findViewById(R.id.two);
         Button btn3 = (Button)findViewById(R.id.three);
@@ -44,236 +126,72 @@ public class Calculator extends ActionBarActivity {
         Button btnDiv = (Button)findViewById(R.id.div);
         Button btnClear = (Button)findViewById(R.id.clear);
         Button btnEqual = (Button)findViewById(R.id.equal);
-        DecimalFormat format = new DecimalFormat();
-        format.setDecimalSeparatorAlwaysShown(false);
 
+        btn1.setOnClickListener(new Number_Button());
+        btn2.setOnClickListener(new Number_Button());
+        btn3.setOnClickListener(new Number_Button());
+        btn4.setOnClickListener(new Number_Button());
+        btn5.setOnClickListener(new Number_Button());
+        btn6.setOnClickListener(new Number_Button());
+        btn7.setOnClickListener(new Number_Button());
+        btn8.setOnClickListener(new Number_Button());
+        btn9.setOnClickListener(new Number_Button());
+        btn0.setOnClickListener(new Number_Button());
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) { txt.setText(txt.getText().toString() + "1");}
-                else {txt.setText("1");}
-            }
-        });
+        btnAdd.setOnClickListener(new Operand_Button());
+        btnSub.setOnClickListener(new Operand_Button());
+        btnMul.setOnClickListener(new Operand_Button());
+        btnDiv.setOnClickListener(new Operand_Button());
 
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "2");}
-                else {txt.setText("2");}
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "3");}
-                else {txt.setText("3");}
-            }
-        });
-
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "4");}
-                else {txt.setText("4");}
-            }
-        });
-
-        btn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "5");}
-                else {txt.setText("5");}
-            }
-        });
-
-        btn6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "6");}
-                else {txt.setText("6");}
-            }
-        });
-
-        btn7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "7");}
-                else {txt.setText("7");}
-            }
-        });
-
-        btn8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "8");}
-                else {txt.setText("8");}
-            }
-        });
-
-        btn9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!opClick) {txt.setText(txt.getText().toString() + "9");}
-                else {txt.setText("9");}
-            }
-        });
-
-        btn0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (txt.getText().toString().isEmpty()&&!opClick){
-                    txt.setText(txt.getText().toString()+"");
-                }
-                else if(!opClick){
-                    txt.setText("0");
-                }
-                else{
-                    txt.setText(txt.getText().toString()+"0");
-                }
-            }
-        });
+        txt = (TextView) findViewById(R.id.txt);
+        resultsBoxString = "";
+        opCount = 0;
+        result = 0;
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 txt.setText("");
-                result = 0;
+                resultsBoxString = "";
                 opClick = false;
-            }
-        });
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                operation = Operation.plus;
-                if (txt.getText().toString().isEmpty()){
-                    txt.setText(txt.getText().toString()+"");
-                }
-                else {
-                    if (opClick) {
-                        if (txt.getText().toString().equals(Double.toString(result))) {
-                            txt.setText(Double.toString(result));
-                        } else {
-                            result = result + Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.toString(result));
-                        }
-                    }
-                    else{
-                        result = Double.parseDouble(txt.getText().toString());
-                        txt.setText("");
-                        opClick = true;
-                    }
-                }
-            }
-
-        });
-
-        btnSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                operation = Operation.minus;
-                if (txt.getText().toString().isEmpty()){
-                    txt.setText(txt.getText().toString()+"");
-                }
-                else {
-                    if (opClick){
-                        if (txt.getText().toString().equals(Double.toString(result))) {
-                            txt.setText(Double.toString(result));
-                        } else {
-                            result = result - Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.toString(result));
-                        }
-                    }
-                    else{
-                        result = Double.parseDouble(txt.getText().toString());
-                        txt.setText("");
-                        opClick = true;
-                    }
-                }
-            }
-        });
-
-        btnMul.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                operation = Operation.multiply;
-                if (txt.getText().toString().isEmpty()){
-                    txt.setText(txt.getText().toString()+"");
-                }
-                else {
-                    if (opClick){
-                        if (txt.getText().toString().equals(Double.toString(result))) {
-                            txt.setText(Double.toString(result));
-                        } else {
-                            result = result * Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.toString(result));
-                        }
-                    }
-                    else{
-                        result = Double.parseDouble(txt.getText().toString());
-                        txt.setText("");
-                        opClick = true;
-                    }
-                }
-            }
-        });
-
-        btnDiv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                operation = Operation.divide;
-                if (txt.getText().toString().isEmpty()){
-                    txt.setText(txt.getText().toString()+"");
-                }
-                else {
-                    if (opClick){
-                        if (txt.getText().toString().equals(Double.toString(result))) {
-                            txt.setText(Double.toString(result));
-                        } else {
-                            result = result / Double.parseDouble(txt.getText().toString());
-                            txt.setText(Double.toString(result));
-                        }
-                    }
-                    else{
-                        result = Double.parseDouble(txt.getText().toString());
-                        txt.setText("");
-                        opClick = true;
-                    }
-                }
+                opCount = 0;
+                result = 0;
             }
         });
 
         btnEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txt.getText().toString().isEmpty()) {
-                    txt.setText(txt.getText().toString() + "");
+                if (resultsBoxString.equals("")) {
+                    txt.setText("");
                 } else {
-                    if (opClick) {
+                    if (opCount>0) {
                         switch (operation) {
                             case plus:
-                                result = result + Double.parseDouble(txt.getText().toString());
+                                result = result + Double.parseDouble(resultsBoxString);
                                 break;
                             case minus:
-                                result = result - Double.parseDouble(txt.getText().toString());
+                                result = result - Double.parseDouble(resultsBoxString);
                                 break;
                             case multiply:
-                                result = result * Double.parseDouble(txt.getText().toString());
+                                result = result * Double.parseDouble(resultsBoxString);
                                 break;
                             case divide:
-                                result = result / Double.parseDouble(txt.getText().toString());
+                                result = result / Double.parseDouble(resultsBoxString);
                                 break;
                         }
-
                     }
-                    showResult = true;
+                    //Click equal without clicking operand
+                    else{
+                        result = Double.parseDouble(resultsBoxString);
+                    }
                     opClick = false;
+                    opCount = 0;
                     txt.setText("");
                     intent.putExtra("result", Double.toString(result));
                     intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
                     startActivity(intent);
+                    resultsBoxString = "";
                     result = 0;
                 }
             }
