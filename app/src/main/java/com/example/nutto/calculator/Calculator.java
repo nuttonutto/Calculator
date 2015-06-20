@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class Calculator extends ActionBarActivity {
     double result;
     TextView txt;
@@ -19,6 +21,7 @@ public class Calculator extends ActionBarActivity {
     boolean opClick = false;
     int opCount;
     boolean isCalculated = false;
+    DecimalFormat format;
 
     class Number_Button implements Button.OnClickListener{
 
@@ -100,13 +103,14 @@ public class Calculator extends ActionBarActivity {
                         }
                         isCalculated = true;
                     }
-                    resultsBoxString = Double.toString(result);
+                    resultsBoxString = format.format(result);
                 }
                 else {
                     result = Double.parseDouble(resultsBoxString);
                     resultsBoxString = "";
                 }
             }
+
             txt.setText(resultsBoxString);
             opClick = true;
         }
@@ -118,6 +122,8 @@ public class Calculator extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_calculator);
 
+        format = new DecimalFormat("###,###,###,###");
+        //format.setDecimalSeparatorAlwaysShown(false);
         final Intent intent = new Intent(Calculator.this,Result.class);
         Button btn1 = (Button) findViewById(R.id.one);
         Button btn2 = (Button)findViewById(R.id.two);
@@ -197,7 +203,7 @@ public class Calculator extends ActionBarActivity {
                     opClick = false;
                     opCount = 0;
                     txt.setText("");
-                    intent.putExtra("result", Double.toString(result));
+                    intent.putExtra("result", format.format(result));
                     intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
                     startActivity(intent);
                     resultsBoxString = "";
