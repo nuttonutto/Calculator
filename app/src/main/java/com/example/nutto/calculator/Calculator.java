@@ -71,16 +71,7 @@ public class Calculator extends ActionBarActivity {
                 case R.id.div: operation = Operation.divide; break;
             }
 
-            //Add minus number
             if(resultsBoxString.equals("")){
-                /**switch (v.getId()){
-                    case R.id.add: resultsBoxString = ""; break;
-                    case R.id.mul: resultsBoxString = ""; break;
-                    case R.id.div: resultsBoxString = ""; break;
-                    case R.id.sub: resultsBoxString = "-"; break;
-                }
-                if(resultsBoxString.equals("-"))
-                result = -0;**/
                 txt.setText(resultsBoxString+"");
             }
             else {
