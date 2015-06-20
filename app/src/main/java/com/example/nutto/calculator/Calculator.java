@@ -16,8 +16,8 @@ public class Calculator extends ActionBarActivity {
     double result;
     TextView txt;
     String resultsBoxString;
-    enum Operation {plus, minus, multiply, divide}
-    Operation operation = Operation.plus;
+    enum Operation {noop,plus, minus, multiply, divide}
+    Operation tmp,operation = Operation.noop;
     boolean opClick = false;
     int opCount;
     boolean isCalculated = false;
@@ -62,7 +62,6 @@ public class Calculator extends ActionBarActivity {
     }
 
     class Operand_Button implements Button.OnClickListener{
-        double tmp;
         @Override
         public void onClick(View v) {
             switch (v.getId()){
@@ -71,6 +70,7 @@ public class Calculator extends ActionBarActivity {
                 case R.id.mul: operation = Operation.multiply; break;
                 case R.id.div: operation = Operation.divide; break;
             }
+
             //Add minus number
             if(resultsBoxString.equals("")){
                 /**switch (v.getId()){
@@ -87,7 +87,7 @@ public class Calculator extends ActionBarActivity {
                 opCount += 1;
                 if(opClick){
                     if(!isCalculated) {
-                        switch (operation) {
+                        switch (tmp) {
                             case plus:
                                 result = result + Double.parseDouble(txt.getText().toString());
                                 break;
@@ -100,6 +100,8 @@ public class Calculator extends ActionBarActivity {
                             case divide:
                                 result = result / Double.parseDouble(txt.getText().toString());
                                 break;
+                            case noop:
+                                break;
                         }
                         isCalculated = true;
                     }
@@ -110,7 +112,7 @@ public class Calculator extends ActionBarActivity {
                     resultsBoxString = "";
                 }
             }
-
+            tmp = operation;
             txt.setText(resultsBoxString);
             opClick = true;
         }
