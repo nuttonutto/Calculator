@@ -10,18 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
+import java.math.BigInteger;
 
 public class Calculator extends ActionBarActivity {
-    double result;
-    TextView txt;
-    String resultsBoxString;
-    enum Operation {noop,plus, minus, multiply, divide}
-    Operation tmp,operation = Operation.noop;
-    boolean opClick = false;
-    int opCount;
-    boolean isCalculated = false;
-    DecimalFormat format;
+    private BigInteger result;
+    private TextView txt;
+    private String resultsBoxString;
+    private enum Operation {noop,plus, minus, multiply, divide}
+    private Operation tmp,operation = Operation.noop;
+    private boolean opClick = false;
+    private int opCount;
+    private boolean isCalculated = false;
 
     class Number_Button implements Button.OnClickListener{
 
@@ -62,6 +61,8 @@ public class Calculator extends ActionBarActivity {
     }
 
     class Operand_Button implements Button.OnClickListener{
+        private String input;
+        private BigInteger bigInput;
         @Override
         public void onClick(View v) {
             switch (v.getId()){
@@ -75,31 +76,37 @@ public class Calculator extends ActionBarActivity {
                 txt.setText(resultsBoxString+"");
             }
             else {
+                input = txt.getText().toString();
+                bigInput = new BigInteger(input);
                 opCount += 1;
                 if(opClick){
                     if(!isCalculated) {
                         switch (tmp) {
                             case plus:
-                                result = result + Double.parseDouble(txt.getText().toString());
+                                //result = result + Double.parseDouble(txt.getText().toString());
+                                result = result.add(bigInput);
                                 break;
                             case minus:
-                                result = result - Double.parseDouble(txt.getText().toString());
+                                //result = result - Double.parseDouble(txt.getText().toString());
+                                result = result.subtract(bigInput);
                                 break;
                             case multiply:
-                                result = result * Double.parseDouble(txt.getText().toString());
+                                //result = result * Double.parseDouble(txt.getText().toString());
+                                result = result.multiply(bigInput);
                                 break;
                             case divide:
-                                result = result / Double.parseDouble(txt.getText().toString());
+                                //result = result / Double.parseDouble(txt.getText().toString());
+                                result = result.divide(bigInput);
                                 break;
                             case noop:
                                 break;
                         }
                         isCalculated = true;
                     }
-                    resultsBoxString = format.format(result);
+                    resultsBoxString = result.toString();
                 }
                 else {
-                    result = Double.parseDouble(resultsBoxString);
+                    result = bigInput;
                     resultsBoxString = "";
                 }
             }
@@ -115,9 +122,6 @@ public class Calculator extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_calculator);
 
-        format = new DecimalFormat("###,###,###,###");
-        //format.setDecimalSeparatorAlwaysShown(false);
-        //final Intent intent = new Intent(Calculator.this,Result.class);
         Button btn1 = (Button) findViewById(R.id.one);
         Button btn2 = (Button)findViewById(R.id.two);
         Button btn3 = (Button)findViewById(R.id.three);
@@ -154,7 +158,7 @@ public class Calculator extends ActionBarActivity {
         txt = (TextView) findViewById(R.id.txt);
         resultsBoxString = "";
         opCount = 0;
-        result = 0;
+        result = BigInteger.valueOf(0);
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,45 +167,53 @@ public class Calculator extends ActionBarActivity {
                 resultsBoxString = "";
                 opClick = false;
                 opCount = 0;
-                result = 0;
+                result = BigInteger.valueOf(0);
                 isCalculated = false;
             }
         });
 
         btnEqual.setOnClickListener(new View.OnClickListener() {
+            private String input;
+            private BigInteger bigInput;
             @Override
             public void onClick(View v) {
                 if (resultsBoxString.equals("")) {
                     txt.setText("");
                 } else {
+                    input = txt.getText().toString();
+                    bigInput = new BigInteger(input);
                     if(opCount>0){
                         switch (operation) {
                             case plus:
-                                result = result + Double.parseDouble(txt.getText().toString());
+                                //result = result + Double.parseDouble(txt.getText().toString());
+                                result = result.add(bigInput);
                                 break;
                             case minus:
-                                result = result - Double.parseDouble(txt.getText().toString());
+                                //result = result - Double.parseDouble(txt.getText().toString());
+                                result = result.subtract(bigInput);
                                 break;
                             case multiply:
-                                result = result * Double.parseDouble(txt.getText().toString());
+                                //result = result * Double.parseDouble(txt.getText().toString());
+                                result = result.multiply(bigInput);
                                 break;
                             case divide:
-                                result = result / Double.parseDouble(txt.getText().toString());
+                                //result = result / Double.parseDouble(txt.getText().toString());
+                                result = result.divide(bigInput);
                                 break;
                         }
                     }
                     else{
-                        result = Double.valueOf(resultsBoxString);
+                        result = bigInput;
                     }
                     opClick = false;
                     opCount = 0;
                     txt.setText("");
                     final Intent intent = new Intent(Calculator.this,Result.class);
-                    intent.putExtra("result", format.format(result));
+                    intent.putExtra("result", result.toString());
                     intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
                     startActivity(intent);
                     resultsBoxString = "";
-                    result = 0;
+                    result = BigInteger.valueOf(0);
                     isCalculated = false;
                 }
             }

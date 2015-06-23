@@ -17,7 +17,6 @@ public class Result extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_result);
         final TextView txt2 = (TextView) findViewById(R.id.txt2);
         if (savedInstanceState == null) {
