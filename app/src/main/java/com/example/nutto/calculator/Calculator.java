@@ -117,7 +117,7 @@ public class Calculator extends ActionBarActivity {
 
         format = new DecimalFormat("###,###,###,###");
         //format.setDecimalSeparatorAlwaysShown(false);
-        final Intent intent = new Intent(Calculator.this,Result.class);
+        //final Intent intent = new Intent(Calculator.this,Result.class);
         Button btn1 = (Button) findViewById(R.id.one);
         Button btn2 = (Button)findViewById(R.id.two);
         Button btn3 = (Button)findViewById(R.id.three);
@@ -196,6 +196,7 @@ public class Calculator extends ActionBarActivity {
                     opClick = false;
                     opCount = 0;
                     txt.setText("");
+                    final Intent intent = new Intent(Calculator.this,Result.class);
                     intent.putExtra("result", format.format(result));
                     intent.putExtra("activityName", Calculator.this.getClass().getSimpleName());
                     startActivity(intent);
