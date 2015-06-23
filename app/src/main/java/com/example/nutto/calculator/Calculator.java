@@ -83,19 +83,15 @@ public class Calculator extends ActionBarActivity {
                     if(!isCalculated) {
                         switch (tmp) {
                             case plus:
-                                //result = result + Double.parseDouble(txt.getText().toString());
                                 result = result.add(bigInput);
                                 break;
                             case minus:
-                                //result = result - Double.parseDouble(txt.getText().toString());
                                 result = result.subtract(bigInput);
                                 break;
                             case multiply:
-                                //result = result * Double.parseDouble(txt.getText().toString());
                                 result = result.multiply(bigInput);
                                 break;
                             case divide:
-                                //result = result / Double.parseDouble(txt.getText().toString());
                                 result = result.divide(bigInput);
                                 break;
                             case noop:
@@ -185,19 +181,15 @@ public class Calculator extends ActionBarActivity {
                     if(opCount>0){
                         switch (operation) {
                             case plus:
-                                //result = result + Double.parseDouble(txt.getText().toString());
                                 result = result.add(bigInput);
                                 break;
                             case minus:
-                                //result = result - Double.parseDouble(txt.getText().toString());
                                 result = result.subtract(bigInput);
                                 break;
                             case multiply:
-                                //result = result * Double.parseDouble(txt.getText().toString());
                                 result = result.multiply(bigInput);
                                 break;
                             case divide:
-                                //result = result / Double.parseDouble(txt.getText().toString());
                                 result = result.divide(bigInput);
                                 break;
                         }
